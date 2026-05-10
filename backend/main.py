@@ -4,15 +4,15 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from models import (
+from .models import (
     SimulationInput, SimulationResult, DailyWeather, DroughtSeverity,
     MARKOV_TRANSITIONS, ALL_STRATEGIES
 )
-from engine import (
+from .engine import (
     prepare_logic, build_climate_report, evaluate_strategy,
     make_recommendation, simulate_weather
 )
-from visuals import create_charts
+from .visuals import create_charts
 
 app = FastAPI(title="AgriSim", version="0.4.0")
 

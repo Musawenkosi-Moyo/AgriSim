@@ -1,6 +1,6 @@
 import numpy as np
 from typing import List, Tuple, Dict
-from models import (
+from .models import (
     StrategyName, CropType, DroughtSeverity, CropTraits, CROP_TRAITS,
     MARKOV_TRANSITIONS, SEVERITY_DURATIONS, ALL_STRATEGIES,
     IRRIGATION_THRESHOLDS, IRRIGATION_AMOUNTS, IRRIGATION_FREQUENCY_CAP, IRRIGATION_EFFICIENCY,

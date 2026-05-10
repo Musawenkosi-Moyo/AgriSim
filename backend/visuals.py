@@ -5,7 +5,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 from typing import List, Tuple
-from models import StrategyEvaluation
+from .models import StrategyEvaluation
 
 def create_charts(evals: List[StrategyEvaluation]) -> Tuple[str, str]:
     """Draw the bar and line charts."""
