@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AgriSim</title>
+    <link rel="stylesheet" href="/static/index.css?v=1.1" />
+  </head>
+  <body>
+
+    <!-- Landing Page View -->
+    <div id="landing-view">
+
+
+      <img src="/assets/irrigation.jpg" alt="Agricultural Irrigation" class="hero-bg" />
+      <div class="hero-overlay-dark"></div>
+
+      <div class="landing-container">
+        
+
+        <main class="main-content">
+          <div class="glow-bg"></div>
+          <h1 class="main-headline">Predict your harvest before drought decides for you.</h1>
+          <p class="main-subheadline">
+            AgriSim helps you predict how the drought might affect your farm. Let the tool estimate your harvest and checks whether your irrigation plan is effective or if another method could save more water and give better results.
+          </p>
+
+          <button class="primary-button sim-trigger">Run Simulation</button>
+        </main>
+
+
+      </div>
+    </div>
+
+    <!-- Simulator View -->
+    <div id="simulator-view" class="hidden">
+
+      <div class="app-layout">
+        <div class="left-panel">
+          <div class="card">
+            <div class="title-badge">Farm Controls</div>
+            <h2>AgriSim Inputs</h2>
+            <div class="grid">
+              <div>
+                <label for="cropType">Crop Type</label>
+                <select id="cropType">
+                  <option value="maize" selected>Maize</option>
+                  <option value="wheat">Wheat</option>
+                  <option value="sorghum">Sorghum</option>
+                  <option value="groundnuts">Groundnuts</option>
+                  <option value="tobacco">Tobacco</option>
+                </select>
+              </div>
+              <div>
+                <label for="fieldSize">Field Size (hectares)</label>
+                <input id="fieldSize" type="text" value="1.0" style="background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.2); color: white; padding: 10px; border-radius: 6px; width: 100%; font-size: 1rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#4caf50'" onblur="this.style.borderColor='rgba(255,255,255,0.2)'" />
+              </div>
+              <div>
+                <label for="droughtSeverity">Drought Severity</label>
+                <select id="droughtSeverity">
+                  <option value="mild">Mild</option>
+                  <option value="moderate" selected>Moderate</option>
+                  <option value="extreme">Extreme</option>
+                </select>
+              </div>
+              <div>
+                <label for="seasonLength">Season length (days)</label>
+                <div class="slider-row">
+                  <input id="seasonLength" type="range" min="20" max="120" value="120" step="1" />
+                  <span class="slider-val" id="seasonLengthLabel">120</span>
+                </div>
+              </div>
+              <div>
+                <label for="irrigationStrategy">Your Irrigation Strategy</label>
+                <select id="irrigationStrategy">
+                  <option value="passive">Passive</option>
+                  <option value="conservative">Conservative</option>
+                  <option value="adaptive" selected>Adaptive</option>
+                  <option value="aggressive">Aggressive</option>
+                </select>
+              </div>
+
+            </div>
+            <div style="margin-top: 12px">
+              <button id="runBtn">Run Simulation</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="right-panel">
+
+
+          <div class="card fade-in" id="recommendationCard" style="display: none">
+            <div class="title-badge">Decision Support</div>
+            <h3>Recommended Action</h3>
+            <p id="recWhy" style="font-size: 1.1rem; line-height: 1.6; color: #e8f0e9; margin-top: 10px;"></p>
+          </div>
+
+          <div class="card fade-in" id="resultsCard" style="display: none">
+            <div class="title-badge">Scenario Breakdown</div>
+            <h3 id="scenarioTableTitle">Drought horizon comparison by strategy</h3>
+            <table>
+              <thead id="scenarioHeadRow">
+                <!-- filled by JS -->
+              </thead>
+              <tbody id="resultsBody"></tbody>
+            </table>
+          </div>
+
+          <div class="card fade-in" id="graphsCard" style="display: none">
+            <div class="title-badge">Visual Analytics</div>
+            <h3>Graphs</h3>
+            <p class="muted" id="graphsHint">Charts update with your drought horizons and strategies.</p>
+            <div class="chart-wrap" style="margin-bottom: 10px">
+              <img id="meanYieldImg" style="width: 100%; height: auto; border-radius: 8px;" alt="Mean Yield Chart" />
+            </div>
+            <div class="chart-wrap">
+              <img id="durationImg" style="width: 100%; height: auto; border-radius: 8px;" alt="Duration Chart" />
+            </div>
+          </div>
+
+          <div class="card fade-in" id="harvestSummaryCard" style="display: none;">
+            <div class="title-badge">Harvest Prediction</div>
+            <h3>Farm-Wide Harvest Estimate</h3>
+            <p class="muted">Based on your field size and the selected crop's benchmark.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+              <div class="stat-item">
+                <span class="muted" style="font-size: 0.8rem; display: block;">Expected Yield (Benchmark)</span>
+                <span id="sumExpected" style="font-size: 1.4rem; font-weight: bold; color: #fff;">0.00</span> <span class="muted">Tonnes</span>
+              </div>
+              <div class="stat-item">
+                <span class="muted" style="font-size: 0.8rem; display: block;">Predicted Actual Yield</span>
+                <span id="sumActual" style="font-size: 1.4rem; font-weight: bold; color: #4caf50;">0.00</span> <span class="muted">Tonnes</span>
+              </div>
+              <div class="stat-item">
+                <span class="muted" style="font-size: 0.8rem; display: block;">Total Harvest Loss</span>
+                <span id="sumLoss" style="font-size: 1.4rem; font-weight: bold; color: #ff5252;">0.00</span> <span class="muted">Tonnes</span>
+              </div>
+              <div class="stat-item">
+                <span class="muted" style="font-size: 0.8rem; display: block;">Loss Percentage</span>
+                <span id="sumLossPct" style="font-size: 1.4rem; font-weight: bold; color: #ffb74d;">0.00</span> <span class="muted">%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card fade-in" id="statsTableCard" style="display: none">
+            <div class="title-badge">Statistics</div>
+            <h3>Statistical Data</h3>
+            <p class="muted">Mean yield in kg/ha if you use each policy.</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Strategy</th>
+                  <th>Mean Yield (kg/ha)</th>
+                </tr>
+              </thead>
+              <tbody id="statsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      // Navigation Logic
+      document.querySelectorAll(".sim-trigger").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.getElementById("landing-view").classList.add("hidden");
+          const simulatorView = document.getElementById("simulator-view");
+          simulatorView.classList.remove("hidden");
+          simulatorView.classList.add("fade-in");
+        });
+      });
+
+      // Simulation Logic
+      function titleCaseStrategy(s) {
+        return s.charAt(0).toUpperCase() + s.slice(1);
+      }
+
+      document.getElementById("seasonLength").addEventListener("input", (e) => {
+        document.getElementById("seasonLengthLabel").textContent = e.target.value;
+      });
+
+      async function runSimulation() {
+        const payload = {
+          crop_type: document.getElementById("cropType").value,
+          drought_severity: document.getElementById("droughtSeverity").value,
+          season_length: Number(document.getElementById("seasonLength").value),
+          irrigation_strategy: document.getElementById("irrigationStrategy").value,
+          field_size: Number(document.getElementById("fieldSize").value || 1.0),
+        };
+
+        const response = await fetch("/api/simulate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          const text = await response.text();
+          alert("Simulation error: " + text);
+          return;
+        }
+
+        const data = await response.json();
+        renderRecommendation(data.Advice);
+        renderResults(data.Evaluations, data.Climate);
+        renderStatsTable(data.Evaluations);
+        renderHarvestSummary(data.Evaluations, data.Inputs);
+        renderGraphs(data.PlotMean, data.PlotCurve, data.Climate);
+      }
+
+      function renderHarvestSummary(evaluations, inputs) {
+        // Find the evaluation that matches the user's current selected strategy
+        const current = evaluations.find(e => e.Strategy === inputs.irrigation_strategy) || evaluations[0];
+        
+        document.getElementById("harvestSummaryCard").style.display = "block";
+        document.getElementById("sumExpected").textContent = current.ExpectedYieldTotal.toFixed(2);
+        document.getElementById("sumActual").textContent = current.ActualYieldTotal.toFixed(2);
+        document.getElementById("sumLoss").textContent = current.TotalLoss.toFixed(2);
+        document.getElementById("sumLossPct").textContent = current.LossPercentage.toFixed(2);
+      }
+
+
+
+      function renderRecommendation(rec) {
+        document.getElementById("recommendationCard").style.display = "block";
+        document.getElementById("recWhy").textContent = rec.Explanation;
+      }
+
+      function renderResults(evaluations, climate) {
+        document.getElementById("resultsCard").style.display = "block";
+        const shortW = climate.SimulatedWeeks[0];
+        const longW = climate.SimulatedWeeks[1];
+        document.getElementById("scenarioTableTitle").textContent =
+          `${shortW}-week vs ${longW}-week drought outcomes by irrigation strategy`;
+
+        const head = document.getElementById("scenarioHeadRow");
+        head.innerHTML = `<tr>
+          <th>Strategy</th>
+          <th>${shortW}w yield %</th>
+          <th>${shortW}w loss %</th>
+          <th>${longW}w yield %</th>
+          <th>${longW}w loss %</th>
+        </tr>`;
+
+        const body = document.getElementById("resultsBody");
+        body.innerHTML = "";
+
+        evaluations.forEach((ev) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${titleCaseStrategy(ev.Strategy)}</td>
+            <td>${ev.ShortDrought.ExpectedYield}</td>
+            <td>${ev.ShortDrought.ExpectedLoss}</td>
+            <td>${ev.LongDrought.ExpectedYield}</td>
+            <td>${ev.LongDrought.ExpectedLoss}</td>
+          `;
+          body.appendChild(tr);
+        });
+      }
+
+      function renderStatsTable(evaluations) {
+        document.getElementById("statsTableCard").style.display = "block";
+        const body = document.getElementById("statsBody");
+        body.innerHTML = "";
+        evaluations.forEach((ev) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${titleCaseStrategy(ev.Strategy)}</td><td>${ev.HarvestAmount}</td>`;
+          body.appendChild(tr);
+        });
+      }
+
+      function renderGraphs(img1, img2, climate) {
+        document.getElementById("graphsCard").style.display = "block";
+        const h = climate.SimulatedWeeks;
+        document.getElementById("graphsHint").textContent =
+          `Mean yield bars by strategy · Line chart crosses ${h[0]}-week and ${h[1]}-week drought horizons`;
+        
+        document.getElementById("meanYieldImg").src = "data:image/png;base64," + img1;
+        document.getElementById("durationImg").src = "data:image/png;base64," + img2;
+      }
+
+      document.getElementById("runBtn").addEventListener("click", runSimulation);
+      document.getElementById("seasonLengthLabel").textContent = document.getElementById("seasonLength").value;
+    </script>
+  </body>
+</html>
