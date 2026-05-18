@@ -5,14 +5,14 @@ html, body {
   font-family: 'Inter', "Segoe UI", Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #ffffff !important;
-  color: #1b2f1b;
+  background-color: #f8fafc;
+  color: #1e293b;
   min-height: 100vh;
 }
 
 h1, h2, h3 {
   font-family: 'Inter', sans-serif;
-  color: #1b2f1b;
+  color: #1e293b;
   margin-top: 0;
 }
 
@@ -161,10 +161,69 @@ h1, h2, h3 {
 
 /* Simulator View Styles */
 #simulator-view {
-  padding: 24px;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  background-image: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.15),
+      rgba(244, 241, 228, 0.32)
+    ),
+    url('https://static.vecteezy.com/system/resources/thumbnails/037/230/008/small_2x/ai-generated-precision-irrigation-systems-and-agricultural-practices-contributing-to-the-efficient-use-of-water-in-agriculture-photo.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  padding: 40px 24px;
+  color: #1e293b;
+  display: flex;
+  flex-direction: column;
+}
+
+.simulator-container {
   max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
-  background-color: #ffffff !important;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Styles inside Simulator */
+.simulator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.simulator-header .logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #000000;
+  letter-spacing: -0.5px;
+}
+
+.back-btn {
+  width: auto;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: #1e293b;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 100px;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.back-btn:hover {
+  background: rgba(21, 128, 61, 0.08);
+  border-color: #15803d;
+  color: #15803d;
 }
 
 .app-layout {
@@ -187,25 +246,42 @@ h1, h2, h3 {
 }
 
 .card {
-  background: #112f13;
-  color: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  border: 1px solid rgba(158, 204, 106, 0.2);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: #334155;
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(15, 32, 16, 0.06);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .card h1, .card h2, .card h3 {
-  color: #ffffff;
+  color: #1e293b;
 }
 
 .card:hover {
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(21, 128, 61, 0.3);
+  box-shadow: 0 16px 40px rgba(15, 32, 16, 0.12);
 }
 
 .left-panel .card {
   margin-bottom: 0;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(203, 213, 225, 0.5);
+  border-radius: 12px;
+  padding: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.stat-item:hover {
+  background: rgba(255, 255, 255, 0.65);
 }
 
 .grid {
@@ -219,48 +295,43 @@ label {
   display: block;
   font-size: 13px;
   margin-bottom: 6px;
-  color: #ffffff;
-  font-weight: 600;
+  color: #000000;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 input[type="range"] {
   width: 100%;
-  accent-color: #ffffff;
+  accent-color: #15803d;
   padding: 0;
   height: 6px;
   border-radius: 3px;
-  background: #d4e0d4;
-  outline: none;
-}
-
-input:not([type="range"]),
-select,
-button {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid rgba(158, 204, 106, 0.4);
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: inherit;
-  box-sizing: border-box;
-  background: rgba(13, 31, 14, 0.8);
-  color: #ffffff;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-input:not([type="range"]):focus,
-select:focus {
-  border-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(158, 204, 106, 0.2);
+  background: #cbd5e1;
   outline: none;
 }
 
 input:not([type="range"]),
 select {
-  background: rgba(13, 31, 14, 0.8);
-  color: #ffffff;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid rgba(203, 213, 225, 0.7);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.75);
+  color: #1e293b;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+input:not([type="range"]):focus,
+select:focus {
+  border-color: #15803d;
+  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.12);
+  background: #ffffff;
+  outline: none;
 }
 
 .slider-row {
@@ -273,23 +344,34 @@ select {
   min-width: 44px;
   text-align: right;
   font-weight: 700;
-  color: #ffffff;
+  color: #1e293b;
   font-size: 15px;
 }
 
 button#runBtn {
-  background: #fbfbfb;
-  color: #006d05;
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+  color: #ffffff;
   border: none;
-  font-weight: 600;
+  font-weight: 700;
   font-family: 'Inter', sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   letter-spacing: 0.5px;
   cursor: pointer;
-  padding: 14px;
-  margin-top: 8px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  padding: 16px;
+  margin-top: 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.25);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button#runBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.45);
+  filter: brightness(1.1);
+}
+
+button#runBtn:active {
+  transform: translateY(0);
 }
 
 
@@ -297,27 +379,33 @@ table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  margin-top: 16px;
-  border-radius: 8px;
+  margin-top: 18px;
+  border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(158, 204, 106, 0.2);
+  border: 1px solid rgba(203, 213, 225, 0.5);
+  background: rgba(255, 255, 255, 0.4);
 }
 
 th,
 td {
-  padding: 12px 16px;
+  padding: 14px 18px;
   text-align: left;
   font-size: 14px;
-  border-bottom: 1px solid rgba(158, 204, 106, 0.1);
+  border-bottom: 1px solid rgba(203, 213, 225, 0.4);
 }
 
 th {
-  background: rgba(158, 204, 106, 0.2);
-  font-weight: 600;
-  color: #ffffff;
+  background: rgba(21, 128, 61, 0.08);
+  backdrop-filter: blur(4px);
+  font-weight: 700;
+  color: #15803d;
   text-transform: uppercase;
-  font-size: 12px;
-  letter-spacing: 0.5px;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+td {
+  color: #1e293b;
 }
 
 tr:last-child td {
@@ -325,7 +413,7 @@ tr:last-child td {
 }
 
 .muted {
-  color: rgba(255, 255, 255, 0.7);
+  color: #475569;
   font-size: 14px;
   line-height: 1.5;
 }
@@ -333,17 +421,17 @@ tr:last-child td {
 .kpi {
   font-size: 16px;
   margin: 10px 0;
-  color: #ffffff;
+  color: #1e293b;
   font-weight: 500;
 }
 
 .chart-wrap {
   width: 100%;
   overflow: hidden;
-  padding: 0;
-  background: transparent;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.4);
   border-radius: 12px;
-  border: none;
+  border: 1px solid rgba(226, 232, 240, 0.8);
   margin-top: 16px;
 }
 
@@ -352,7 +440,6 @@ tr:last-child td {
   width: 100%;
   height: auto;
   border-radius: 8px;
-  background: #ffffff; /* Keep chart background white for readability */
 }
 
 canvas {
@@ -362,15 +449,16 @@ canvas {
 
 .title-badge {
   display: inline-block;
-  font-size: 18px;
+  font-size: 11px;
   font-weight: 700;
-  color: #ffffff;
-  background: transparent;
-  border: none;
-  padding: 4px 0;
+  color: #15803d;
+  background: rgba(21, 128, 61, 0.08);
+  border: 1px solid rgba(21, 128, 61, 0.2);
+  padding: 4px 10px;
+  border-radius: 6px;
   margin-bottom: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 /* Utilities */

@@ -9,13 +9,13 @@ from .models import StrategyEvaluation
 
 def create_charts(evals: List[StrategyEvaluation]) -> Tuple[str, str]:
     """Draw the bar and line charts."""
-    bg, text = "#112f13", "#ffffff"
-    colors = ["#94a3b8", "#60a5fa", "#4ade80", "#fb923c"]
+    bg, text = "none", "#1e293b"
+    colors = ["#64748b", "#0284c7", "#16a34a", "#ea580c"]
 
     plt.rcParams.update({
         "figure.facecolor": bg, "axes.facecolor": bg, "text.color": text,
         "axes.labelcolor": text, "xtick.color": text, "ytick.color": text,
-        "axes.edgecolor": "#2a4d2c", "grid.color": "#1a3a1c", "font.family": "sans-serif"
+        "axes.edgecolor": "#94a3b8", "grid.color": "#cbd5e1", "font.family": "sans-serif"
     })
 
     # 1. Bar Chart
@@ -26,7 +26,7 @@ def create_charts(evals: List[StrategyEvaluation]) -> Tuple[str, str]:
     ax1.set_ylabel("Yield (kg/ha)")
     
     buf1 = io.BytesIO()
-    fig1.savefig(buf1, format="png", bbox_inches="tight")
+    fig1.savefig(buf1, format="png", bbox_inches="tight", transparent=True)
     plot1 = base64.b64encode(buf1.getvalue()).decode()
     plt.close(fig1)
 
@@ -53,7 +53,7 @@ def create_charts(evals: List[StrategyEvaluation]) -> Tuple[str, str]:
     ax2.legend()
     
     buf2 = io.BytesIO()
-    fig2.savefig(buf2, format="png", bbox_inches="tight")
+    fig2.savefig(buf2, format="png", bbox_inches="tight", transparent=True)
     plot2 = base64.b64encode(buf2.getvalue()).decode()
     plt.close(fig2)
 

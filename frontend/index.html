@@ -34,10 +34,17 @@
 
     <!-- Simulator View -->
     <div id="simulator-view" class="hidden">
+      <div class="simulator-container">
+        
+        <!-- Header -->
+        <header class="simulator-header">
+          <div class="logo">AgriSim</div>
+          <button class="back-btn">&larr; Back to Home</button>
+        </header>
 
-      <div class="app-layout">
-        <div class="left-panel">
-          <div class="card">
+        <div class="app-layout">
+          <div class="left-panel">
+            <div class="card">
             <div class="title-badge">Farm Controls</div>
             <h2>AgriSim Inputs</h2>
             <div class="grid">
@@ -53,7 +60,7 @@
               </div>
               <div>
                 <label for="fieldSize">Field Size (hectares)</label>
-                <input id="fieldSize" type="text" value="1.0" style="background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.2); color: white; padding: 10px; border-radius: 6px; width: 100%; font-size: 1rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#4caf50'" onblur="this.style.borderColor='rgba(255,255,255,0.2)'" />
+                <input id="fieldSize" type="text" value="1.0" />
               </div>
               <div>
                 <label for="droughtSeverity">Drought Severity</label>
@@ -93,7 +100,7 @@
           <div class="card fade-in" id="recommendationCard" style="display: none">
             <div class="title-badge">Decision Support</div>
             <h3>Recommended Action</h3>
-            <p id="recWhy" style="font-size: 1.1rem; line-height: 1.6; color: #e8f0e9; margin-top: 10px;"></p>
+            <p id="recWhy" style="font-size: 1.1rem; line-height: 1.6; color: #334155; margin-top: 10px;"></p>
           </div>
 
           <div class="card fade-in" id="resultsCard" style="display: none">
@@ -126,19 +133,19 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
               <div class="stat-item">
                 <span class="muted" style="font-size: 0.8rem; display: block;">Expected Yield (Benchmark)</span>
-                <span id="sumExpected" style="font-size: 1.4rem; font-weight: bold; color: #fff;">0.00</span> <span class="muted">Tonnes</span>
+                <span id="sumExpected" style="font-size: 1.4rem; font-weight: bold; color: #1e293b;">0.00</span> <span class="muted">Tonnes</span>
               </div>
               <div class="stat-item">
                 <span class="muted" style="font-size: 0.8rem; display: block;">Predicted Actual Yield</span>
-                <span id="sumActual" style="font-size: 1.4rem; font-weight: bold; color: #4caf50;">0.00</span> <span class="muted">Tonnes</span>
+                <span id="sumActual" style="font-size: 1.4rem; font-weight: bold; color: #16a34a;">0.00</span> <span class="muted">Tonnes</span>
               </div>
               <div class="stat-item">
                 <span class="muted" style="font-size: 0.8rem; display: block;">Total Harvest Loss</span>
-                <span id="sumLoss" style="font-size: 1.4rem; font-weight: bold; color: #ff5252;">0.00</span> <span class="muted">Tonnes</span>
+                <span id="sumLoss" style="font-size: 1.4rem; font-weight: bold; color: #dc2626;">0.00</span> <span class="muted">Tonnes</span>
               </div>
               <div class="stat-item">
                 <span class="muted" style="font-size: 0.8rem; display: block;">Loss Percentage</span>
-                <span id="sumLossPct" style="font-size: 1.4rem; font-weight: bold; color: #ffb74d;">0.00</span> <span class="muted">%</span>
+                <span id="sumLossPct" style="font-size: 1.4rem; font-weight: bold; color: #d97706;">0.00</span> <span class="muted">%</span>
               </div>
             </div>
           </div>
@@ -159,7 +166,9 @@
           </div>
         </div>
       </div>
-    </div>
+      
+      </div> <!-- Close simulator-container -->
+    </div> <!-- Close simulator-view -->
     
     <script>
       // Navigation Logic
@@ -170,6 +179,11 @@
           simulatorView.classList.remove("hidden");
           simulatorView.classList.add("fade-in");
         });
+      });
+
+      document.querySelector(".back-btn").addEventListener("click", () => {
+        document.getElementById("simulator-view").classList.add("hidden");
+        document.getElementById("landing-view").classList.remove("hidden");
       });
 
       // Simulation Logic
